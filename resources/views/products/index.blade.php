@@ -35,11 +35,11 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Size
+                        Color
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Color
+                        Size
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -74,7 +74,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            MMK {{ join(',', str_split($product->price, 3)) }}
+                            MMK{{ price($product->price) }}
                         </td>
                         <td class="px-6 py-5 whitespace-no-wrap text-sm">
                             {{ $product->color }}
@@ -83,12 +83,7 @@
                             {{ $product->size }}
                         </td>
                         <td class="px-6 py-5 whitespace-no-wrap text-sm">
-                            @unless($product->min_age && $product->max_age)
-                                <i class="fa fa-empty"></i>
-                            @else
-                                <span id="min_age">{{ $product->min_age ? $product->min_age . ' -' : 'under' }}</span>
-                                <span id="max_age">{{ $product->max_age ? $product->max_age . ' yrs.' : '' }}</span>
-                            @endunless
+                            <span id="min_age">{{ $product->min_age ?? '' }}</span>-<span id="max_age">{{ $product->max_age ?? '' }}</span>
 
                         </td>
                         <td class="px-6 py-5 whitespace-no-wrap text-sm">

@@ -10,4 +10,4 @@ Route::get('/', [HomeController::class, 'index'])
 require __DIR__ . '/auth.php';
 
 Route::resource('/products', ProductController::class)
-    ->middleware(['auth']);
+    ->middleware(['verified', 'auth']);

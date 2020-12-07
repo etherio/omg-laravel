@@ -65,8 +65,8 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 Route::resource('/users', UserController::class)
-    ->middleware(['auth.admin', 'auth']);
+    ->middleware(['auth.admin', 'verified', 'auth']);
 
 Route::patch('/users/{id}/verify', [UserController::class, 'verify'])
-    ->middleware(['auth.admin', 'auth'])
+    ->middleware(['auth.admin', 'verified', 'auth'])
     ->name('users.verify');
