@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Product extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'code',
+        'name',
+        'description',
+        'price',
+        'size',
+        'color',
+        'min_age',
+        'max_age',
+        'images',
+    ];
+
+    protected $append = [
+        'photos'
+    ];
+}
