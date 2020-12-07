@@ -15,10 +15,10 @@ class UserController extends Controller
      */
     public function index(User $user)
     {
-        $users = $user->all()->filter(function ($user) {
-            return $user->id != Auth::user()->id;
-        });
-
+		$users = $user->where('id', '!=', auth()->user()->id)
+	    ->orderBy('created_at', 'desc')
+		->get();
+		
         return view('users.index', compact('users'));
     }
 
@@ -29,7 +29,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+		return view('auth.register', [
+			'submit' => 'Create User', 
+			'route' => route('users.store'),
+		]);
     }
 
     /**
@@ -39,8 +42,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+	{
+		if ($request->password != $request->password_confirm) {
+		    return back()->withError('');
+		}
+		User::create([
+		    'name' => $request->name,
+		    'email' => $request->email,
+		    'password' => Hash::make($request->password), 
+		]); 
+		return redirect(route('users.index'));
     }
 
     /**
