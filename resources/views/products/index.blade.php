@@ -55,66 +55,54 @@
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white divide-y divide-gray-200 text-sm">
                 @foreach ($products as $product)
-                    {{-- <tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $product->code }}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10 rounded-full" alt="avatar"
-                                        src="https://ui-avatars.com/api/?name={!!  urlencode($user->name) !!}">
-                                </div>
                                 <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900">
-                                        {{ $user->name }}
+                                    <div class="text-gray-900">
+                                        {{ $product->name }}
                                     </div>
-                                    <div class="text-sm text-gray-500">
-                                        <a href="mailto:{{ $user->email }}"
-                                            class="text-blue-600 hover:text-indigo-800 hover:underline">
-                                            {{ $user->email }}
-                                        </a>
+                                    <div class="text-xs text-gray-500">
+                                        {{ $product->description }}
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            @if ($user->isAdmin())
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-600 text-white">Admin</span>
-                                @else
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-400 text-white">User</span>
-                            @endif
+                            MMK {{ join(',', str_split($product->price, 3)) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @if ($user->email_verified_at)
-                                <span
-                                    class="px-2 cursor-pointer inline-flex text-xs leading-5 font-semibold rounded-full bg-green-600 text-white"
-                                    data-tooltip="{{ $user->email_verified_at->getTimestamp() }}">Verified</span>
-                                @else
-                                <form action="{{ route('users.verify', $user->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit"
-                                        class="px-2 cursor-pointer inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-600 text-white">Pending</button>
-                                </form>
-                            @endif
+                        <td class="px-6 py-5 whitespace-no-wrap text-sm">
+                            {{ $product->color }}
                         </td>
-                        <td class="px-6 py-5 whitespace-no-wrap text-sm font-medium">
-                            {{ $user->created_at }}
+                        <td class="px-6 py-5 whitespace-no-wrap text-sm">
+                            {{ $product->size }}
                         </td>
-                        <td class="px-6 py-5 whitespace-no-wrap text-sm font-medium">
-                            <a href="{{ route('users.edit', $user->id) }}"
+                        <td class="px-6 py-5 whitespace-no-wrap text-sm">
+                            @unless($product->min_age && $product->max_age)
+                                <i class="fa fa-empty"></i>
+                            @else
+                                <span id="min_age">{{ $product->min_age ? $product->min_age . ' -' : 'under' }}</span>
+                                <span id="max_age">{{ $product->max_age ? $product->max_age . ' yrs.' : '' }}</span>
+                            @endunless
+
+                        </td>
+                        <td class="px-6 py-5 whitespace-no-wrap text-sm">
+                            <a href="{{ route('products.edit', $product->id) }}"
                                 class="text-indigo-600 hover:underline">Edit</a>
                         </td>
-                        <td class="px-6 py-5 whitespace-no-wrap text-sm font-medium">
-                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                        <td class="px-6 py-5 whitespace-no-wrap text-sm">
+                            <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Delete</button>
                             </form>
                         </td>
-                    </tr>--}}
+                    </tr>
                 @endforeach
             </tbody>
         </table>
